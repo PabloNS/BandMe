@@ -57,7 +57,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.passwordParameter("password")
 			.and().logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+//			.logoutSuccessUrl("/logoutSuccess")
+			.deleteCookies("JSESSIONID")
 	        .invalidateHttpSession(true)
 			.and().exceptionHandling()
 			.accessDeniedPage("/access-denied");

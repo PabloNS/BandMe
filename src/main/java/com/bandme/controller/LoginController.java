@@ -3,6 +3,7 @@ package com.bandme.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,14 @@ public class LoginController {
 	private UserService userService;
 
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-	public String login(Model model){
+	public String login(){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(userService.findUserByEmail(auth.getName())!=null) {
+			return "redirect:/posts";
+		}
 		return "login";
 	}
-	
+
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
 	public String registration(Model model){
 		User user = new User();
