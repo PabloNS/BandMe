@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Spring Security Example</title>
+ <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+ <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="offset-by-three one-half column" style="margin-top:20%; box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+				<img th:src="@{/images/login.png}" width="150" height="150" alt="Logo" class="centered"/>
+				<form autocomplete="off" th:action="@{/registration}" th:object="${user}" method="post" class="u-full-width" style="margin-top: 1rem">
+					
+					<label for="nameInput">Name</label>
+					<input type="text" id="nameInput" name="name" class="u-full-width" placeholder="Name" required autofocus th:field="*{name}" >
+					<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label>
+					
+					<label for="lastNameInput">Last Name</label>
+					<input type="text" id="lastNameInput" name="lastName" class="u-full-width" placeholder="Last Name" required autofocus th:field="*{lastName}" >
+					<label th:if="${#fields.hasErrors('*{lastName}')}" th:errors="*{lastName}" class="validation-message"></label>
+					
+					<label for="emailInput">Email</label>
+					<input type="email" id="emailInput" name="email" class="u-full-width" placeholder="Email" required autofocus th:field="*{email}" >
+					<label th:if="${#fields.hasErrors('*{email}')}" th:errors="*{email}" class="validation-message"></label>
+					
+					<label for="passwordInput">Password</label>
+					<input type="password" id="passwordInput" name="password" class="u-full-width" placeholder="Password" required autofocus th:field="*{password}" >
+					<label th:if="${#fields.hasErrors('*{password}')}" th:errors="*{password}" class="validation-message"></label>
+						
+					<button class="button-primary u-full-width" type="submit">Register</button>
+	
+					<span th:utext="${successMessage}"></span>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+</body>
+</html>
