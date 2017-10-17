@@ -8,3 +8,18 @@
 	margin-left: 50%;
 	transform: translateX(-50%);
 }
+
+button.redirect, button.redirect:active {
+	background-color: #6E4D92 !important;
+	border-color: grey;
+}
+
+button:hover {
+	transform: scale(1.05);
+	transition: transform 200ms;
+}
+
+button:hover.centered {
+	transform:  translateX(-50%) scale(1.05);
+	transition: transform 200ms;
+}

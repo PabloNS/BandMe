@@ -4,31 +4,27 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title>BandMe</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/addPost.css}" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
 </head>
 <body>
-	<div class="container">
-		<div class="card card-container">
-			<form autocomplete="off" th:action="@{/posts}" method="post"
-				class="form-signin">
-				<select id="instruments" class="form-control" required name="instrument">
-					<option>Select instrument</option>
-				</select> 
-				<textarea id="inputDescription" name="description"
-					class="form-control" required maxlength="700"></textarea>
-				<button class="btn btn-lg btn-primary btn-block btn-signin"
-					type="submit">Add Post</button>
-			</form>
-			<!-- /form -->
+	  <div class="container" >
+		<div class="row">
+			<div class="offset-by-three one-half column" style="margin-top:20%; box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+			  	<form th:action="@{/posts}" method="post" class="u-full-width" style="margin-top:2rem">
+					<label for="instruments">Instrument</label>
+					<select id="instruments" class="form-control" required name="instrument">
+						<option>Select instrument</option>
+					</select> 
+
+					<label for="descriptionInput">Description</label>
+          			<textarea id="descriptionInput" maxlength="1400" th:text="${post.description}" name="description" class="u-full-width" style="resize: none; height: 500px"></textarea>
+						
+					<button class="button-primary u-full-width" type="submit">Add Post</button>
+       			</form>
+			</div>
 		</div>
-		<!-- /card-container -->
-	</div>
-	<!-- /container -->
+     </div>
 	<script>
 		function loadInstruments() {
 			$.ajax({

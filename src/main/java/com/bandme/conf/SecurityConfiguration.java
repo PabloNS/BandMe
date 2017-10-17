@@ -62,19 +62,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        .invalidateHttpSession(true)
 			.and().exceptionHandling()
 			.accessDeniedPage("/access-denied");
-		
-//		http.
-//		authorizeRequests()
-//			.antMatchers("/login").permitAll()
-//			.and().formLogin()
-//			.loginPage("/login").failureUrl("/login?error=true")
-//			.defaultSuccessUrl("/posts")
-//			.usernameParameter("email")
-//			.passwordParameter("password")
-//			.and().logout()
-//			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//			.logoutSuccessUrl("/").and().exceptionHandling()
-//			.accessDeniedPage("/access-denied");
 	}
 	
 	@Override

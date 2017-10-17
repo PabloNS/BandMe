@@ -30,7 +30,7 @@
 					<input type="password" id="passwordInput" name="password" class="u-full-width" placeholder="Password" required autofocus th:field="*{password}" >
 					<label th:if="${#fields.hasErrors('*{password}')}" th:errors="*{password}" class="validation-message"></label>
 						
-					<button class="button-primary u-full-width" type="submit">Register</button>
+					<button class="button-primary u-full-width">Register</button>
 	
 					<span th:utext="${successMessage}"></span>
 				</form>
