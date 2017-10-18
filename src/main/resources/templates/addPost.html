@@ -4,27 +4,37 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title>BandMe</title>
-  	<link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
 </head>
 <body>
-	  <div class="container" >
+	<div class="container">
 		<div class="row">
-			<div class="offset-by-three one-half column" style="margin-top:20%; box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
-			  	<form th:action="@{/posts}" method="post" class="u-full-width" style="margin-top:2rem">
-					<label for="instruments">Instrument</label>
-					<select id="instruments" class="form-control" required name="instrument">
+			<div class="offset-by-three one-half column"
+				style="margin-top: 20%; box-shadow: 0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+				<form th:action="@{/posts}" th:object="${post}" method="post" class="u-full-width" style="margin-top: 2rem">
+					<label for="instruments">Instrument</label> 
+					<input type="hidden" id="instrumentInput" name="instrument" required th:field="*{instrument}" >
+					<select id="instruments" required name="instrumentSelect" class="u-full-width">
 						<option>Select instrument</option>
-					</select> 
-
+					</select>
+					<label th:if="${#fields.hasErrors('instrument')}" th:errors="*{instrument}" class="validation-message"></label>
+					
 					<label for="descriptionInput">Description</label>
-          			<textarea id="descriptionInput" maxlength="1400" th:text="${post.description}" name="description" class="u-full-width" style="resize: none; height: 500px"></textarea>
-						
-					<button class="button-primary u-full-width" type="submit">Add Post</button>
-       			</form>
+					<textarea id="descriptionInput" maxlength="1400" name="description"
+						class="u-full-width" style="resize: none; height: 250px" th:field="*{description}"></textarea>
+					<label th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="validation-message"></label>
+					
+					<button class="button-primary u-full-width" type="submit">AddPost</button>
+				</form>
 			</div>
 		</div>
-     </div>
+	</div>
 	<script>
 		function loadInstruments() {
 			$.ajax({
@@ -41,6 +51,11 @@
 		        	});
 		        }
 		    });
+		}
+		var combo = document.getElementById("instruments");
+		combo.onchange = function(event){
+			var instrument = document.getElementById("instrumentInput");
+			instrument.value = event.target.value;
 		}
 		loadInstruments();
 	</script>

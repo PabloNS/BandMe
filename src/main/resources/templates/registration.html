@@ -19,15 +19,15 @@
 					<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label>
 					
 					<label for="lastNameInput">Last Name</label>
-					<input type="text" id="lastNameInput" name="lastName" class="u-full-width" placeholder="Last Name" required autofocus th:field="*{lastName}" >
+					<input type="text" id="lastNameInput" name="lastName" class="u-full-width" placeholder="Last Name" required th:field="*{lastName}" >
 					<label th:if="${#fields.hasErrors('*{lastName}')}" th:errors="*{lastName}" class="validation-message"></label>
 					
 					<label for="emailInput">Email</label>
-					<input type="email" id="emailInput" name="email" class="u-full-width" placeholder="Email" required autofocus th:field="*{email}" >
+					<input type="email" id="emailInput" name="email" class="u-full-width" placeholder="Email" required th:field="*{email}" >
 					<label th:if="${#fields.hasErrors('*{email}')}" th:errors="*{email}" class="validation-message"></label>
 					
 					<label for="passwordInput">Password</label>
-					<input type="password" id="passwordInput" name="password" class="u-full-width" placeholder="Password" required autofocus th:field="*{password}" >
+					<input type="password" id="passwordInput" name="password" class="u-full-width" placeholder="Password" required th:field="*{password}" >
 					<label th:if="${#fields.hasErrors('*{password}')}" th:errors="*{password}" class="validation-message"></label>
 						
 					<button class="button-primary u-full-width">Register</button>

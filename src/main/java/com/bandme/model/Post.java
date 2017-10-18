@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -22,7 +23,7 @@ public class Post {
 	private User user;
 	
 	@ManyToOne
-	@NotEmpty(message = "What instrument are you looking for?")
+	@NotNull(message = "What instrument are you looking for?")
 	private Instrument instrument;
 	
 	@NotEmpty(message = "Please provide an description")
