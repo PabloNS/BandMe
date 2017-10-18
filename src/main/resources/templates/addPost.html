@@ -25,6 +25,21 @@
 					</select>
 					<label th:if="${#fields.hasErrors('instrument')}" th:errors="*{instrument}" class="validation-message"></label>
 					
+					<label for="influenceBandsSelect">Influence Bands</label> 
+					<input type="hidden" id="influenceBandsInput" name="influenceBands" required th:field="*{influenceBands}" >
+					<div class="row" id="influenceBandsDiv">
+						<div class="one-half column">				
+							<select id="influenceBandsSelect" required name="influenceBandsSelect">
+								<option>Select 3 influence bands</option>
+							</select>
+						</div>	
+						<div class="one-half column">
+							<button type="button" id="btnAddBand" onclick="addInfluenceBand()">Add</button>
+						</div>	
+					</div>
+					
+					<div class="row" id="influenceBandsSelected"></div>
+					
 					<label for="descriptionInput">Description</label>
 					<textarea id="descriptionInput" maxlength="1400" name="description"
 						class="u-full-width" style="resize: none; height: 250px" th:field="*{description}"></textarea>
@@ -36,6 +51,28 @@
 		</div>
 	</div>
 	<script>
+		function addInfluenceBand(){
+			if($(".banda").length>=3){
+				
+			} else {
+				var combo = document.getElementById("influenceBandsSelect");
+				if(combo.selectedIndex!==0){
+					
+					var valueSelected = combo.options[combo.selectedIndex].value;
+					var textSelected = combo.options[combo.selectedIndex].text;
+					var lengthBands = $(".banda").length;
+					var influenceBands = document.getElementById("influenceBandsInput");
+					if(lengthBands!==0){
+						influenceBands.value = influenceBands.value + ",";
+					}
+					var div = $("<div class='one-third column banda'></div>")
+					var p = $("<p class='u-full-width'></p>").text(textSelected); 
+					div.append(p);
+					$('#influenceBandsSelected').append(div);
+					influenceBands.value = influenceBands.value + valueSelected;
+				}
+			}
+		};
 		function loadInstruments() {
 			$.ajax({
 		        type: 'GET',
@@ -51,12 +88,32 @@
 		        	});
 		        }
 		    });
-		}
+		};
+		function loadInfluenceBands() {
+			var influenceBands = document.getElementById("influenceBandsInput");
+			influenceBands.value = "";
+			$.ajax({
+		        type: 'GET',
+		        url: '/bands',
+		        cache: false,
+		        success: function (result) {
+		        	var combo = document.getElementById("influenceBandsSelect");
+		        	result.forEach(function(instrument){
+					    var option = document.createElement("option");
+					    option.text = instrument.name;
+					    option.value = instrument.id;
+					    combo.add(option);
+		        	});
+		        }
+		    });
+		};
 		var combo = document.getElementById("instruments");
 		combo.onchange = function(event){
 			var instrument = document.getElementById("instrumentInput");
 			instrument.value = event.target.value;
-		}
+		};
+		
+		loadInfluenceBands();
 		loadInstruments();
 	</script>
 </body>

@@ -30,9 +30,13 @@ public class Post {
 	private String description;
 	
 	@ManyToMany
+	@NotEmpty
+	@NotNull
 	private List<Band> influenceBands;
 	
 	@ManyToMany
+	@NotEmpty
+	@NotNull
 	private List<MusicGenre> musicGenres;
 
 	public Long getId() {
