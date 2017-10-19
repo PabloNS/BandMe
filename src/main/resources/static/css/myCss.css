@@ -23,3 +23,11 @@ button:hover.centered {
 	transform:  translateX(-50%) scale(1.05);
 	transition: transform 200ms;
 }
+
+tdBand{
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #505050 !important;
+  border-top: 2px solid #505050 !important;
+  border-left: 2px solid #505050 !important;
+  border-right: 2px solid #505050 !important; }
