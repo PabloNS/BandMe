@@ -12,16 +12,16 @@
 </head>
 <body>
  <div class="container">
- 	 <div id="header" style="position: relative; height:1px">
-			 <div class="row">
+		 <div class="row">
+			 <div>
 				  	<form th:action="@{/profile}" method="get">
 						<button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
 				    </form>  
 				   <form th:action="@{/logout}" method="post">
 						<button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
-				    </form> 	    
-			 </div> 
-	</div>
+				    </form> 
+			</div>	    	    
+		 </div> 
  	<div class="row">
  		<div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
  		 	<h2 style="display: inline-block; vertical-align: middle"> Posts </h2>

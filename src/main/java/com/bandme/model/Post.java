@@ -36,8 +36,6 @@ public class Post {
 	private List<Band> influenceBands;
 	
 	@ManyToMany
-	@NotEmpty
-	@NotNull
 	private List<MusicGenre> musicGenres;
 
 	public Long getId() {

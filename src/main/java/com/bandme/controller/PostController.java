@@ -39,7 +39,7 @@ public class PostController {
 		return "addPost";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(value="/addPost", method=RequestMethod.POST)
 	public String createNewPost(Principal principal, @Valid Post post, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "addPost";
