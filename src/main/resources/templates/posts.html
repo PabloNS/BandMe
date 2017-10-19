@@ -11,19 +11,19 @@
 <!-- <link href="https://fonts.googleapis.com/css?family=Bellefair" rel="stylesheet"> -->
 </head>
 <body>
- <div id="header" style="position: relative; height:1px">
-	 <div class="row">
-		  	<form th:action="@{/profile}" method="get">
-				<button class="button-primary redirect u-pull-left" style="width: 40%; max-width: 15rem">My profile</button>
-		    </form>  
-		   <form th:action="@{/logout}" method="post">
-				<button class="button-primary redirect u-pull-right" style="width: 40%; max-width: 15rem">Sign Out</button>
-		    </form> 	    
-	 </div> 
-	 </div>
- <div class="container" style="margin-top:10rem">
+ <div class="container">
+ 	 <div id="header" style="position: relative; height:1px">
+			 <div class="row">
+				  	<form th:action="@{/profile}" method="get">
+						<button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
+				    </form>  
+				   <form th:action="@{/logout}" method="post">
+						<button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+				    </form> 	    
+			 </div> 
+	</div>
  	<div class="row">
- 		<div class="offset-by-four one-third column" style="text-align: center">
+ 		<div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
  		 	<h2 style="display: inline-block; vertical-align: middle"> Posts </h2>
  		 	<button style="background-image:url('/images/plus.png'); background-position: center; 
 	 			background-repeat:no-repeat; width: 50px; height: 50px; padding: 1rem; margin-left: 1rem;

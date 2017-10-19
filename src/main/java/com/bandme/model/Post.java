@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,12 +27,12 @@ public class Post {
 	@NotNull(message = "What instrument are you looking for?")
 	private Instrument instrument;
 	
-	@NotEmpty(message = "Please provide an description")
+	@NotEmpty(message = "Please provide a description")
 	private String description;
 	
 	@ManyToMany
-	@NotEmpty
-	@NotNull
+	@NotNull(message = "Select 3 Influence Bands")
+	@Size(min=3, message = "Select 3 Influence Bands")
 	private List<Band> influenceBands;
 	
 	@ManyToMany

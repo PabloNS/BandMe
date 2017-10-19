@@ -14,9 +14,19 @@
 </head>
 <body>
 	<div class="container">
+		 <div id="header" style="position: relative; height:1px">
+			 <div class="row">
+				  	<form th:action="@{/profile}" method="get">
+						<button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
+				    </form>  
+				   <form th:action="@{/logout}" method="post">
+						<button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+				    </form> 	    
+			 </div> 
+		</div>
 		<div class="row">
 			<div class="offset-by-three one-half column"
-				style="margin-top: 20%; box-shadow: 0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+				style="margin-top: 10%; box-shadow: 0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
 				<form th:action="@{/posts}" th:object="${post}" method="post" class="u-full-width" style="margin-top: 2rem">
 					<label for="instruments">Instrument</label> 
 					<input type="hidden" id="instrumentInput" name="instrument" required th:field="*{instrument}" >
@@ -33,12 +43,13 @@
 								<option>Select 3 influence bands</option>
 							</select>
 						</div>	
-						<div class="one-half column">
-							<button type="button" id="btnAddBand" onclick="addInfluenceBand()">Add</button>
-						</div>	
+<!-- 						<div class="one-half column"> -->
+<!-- 							<button type="button" id="btnAddBand" onclick="addInfluenceBand()">Add</button> -->
+<!-- 						</div>	 -->
 					</div>
 					
 					<div class="row" id="influenceBandsSelected"></div>
+					<label th:if="${#fields.hasErrors('influenceBands')}" th:errors="*{influenceBands}" class="validation-message"></label>
 					
 					<label for="descriptionInput">Description</label>
 					<textarea id="descriptionInput" maxlength="1400" name="description"
@@ -51,26 +62,49 @@
 		</div>
 	</div>
 	<script>
+		function removeBand(event){
+			 if (event.which == 3) {
+				 var influenceBands = document.getElementById("influenceBandsInput");
+				 var array = influenceBands.value.split(',');
+				 if(array.length == 1){
+					 influenceBands.value = "";
+				 } else {
+					 array.splice(1, array.indexOf(event.currentTarget.attributes.idBand.value));
+					 influenceBands.value = array.toString();
+				 }
+				 $('#divColumnBand'+event.currentTarget.attributes.idBand.value).remove();
+		    }
+		}
+		
 		function addInfluenceBand(){
-			if($(".banda").length>=3){
+			var bandAlreadySelected = false;
+			var influenceBands = document.getElementById("influenceBandsInput");
+			var array = influenceBands.value.split(',');
+			var combo = document.getElementById("influenceBandsSelect");
+			var valueSelected = combo.options[combo.selectedIndex].value;
+			var textSelected = combo.options[combo.selectedIndex].text;
+			if(array.indexOf(valueSelected)>=0){
+				bandAlreadySelected = true;
+			}
+			if($(".banda").length>=3 || bandAlreadySelected || combo.selectedIndex==0){
 				
 			} else {
-				var combo = document.getElementById("influenceBandsSelect");
-				if(combo.selectedIndex!==0){
-					
-					var valueSelected = combo.options[combo.selectedIndex].value;
-					var textSelected = combo.options[combo.selectedIndex].text;
-					var lengthBands = $(".banda").length;
-					var influenceBands = document.getElementById("influenceBandsInput");
-					if(lengthBands!==0){
-						influenceBands.value = influenceBands.value + ",";
-					}
-					var div = $("<div class='one-third column banda'></div>")
-					var p = $("<p class='u-full-width'></p>").text(textSelected); 
-					div.append(p);
-					$('#influenceBandsSelected').append(div);
-					influenceBands.value = influenceBands.value + valueSelected;
+				var lengthBands = $(".banda").length;
+				var influenceBands = document.getElementById("influenceBandsInput");
+				if(lengthBands!==0){
+					influenceBands.value = influenceBands.value + ",";
 				}
+				var div = $("<div id='divColumnBand" + valueSelected + "' class='one-third column banda'></div>")
+// 					var p = $("<p class='u-full-width'></p>").text(textSelected);
+				var p = $("<p class='centered' style='text-align:center'></p>").text(textSelected); 
+				div.append(p);
+				var p = $("<p class='centered' style='text-align:center'></p>").text(textSelected); 
+				div.append(p);
+// 				var img = $("<img idBand='" + valueSelected + "'onmousedown='removeBand(event)' class='centered' height='30' width='30' alt='bandLogo'></img>").attr("src", "/images/"+textSelected+".png");
+				var img = $("<img class='centered' height='30' width='30' alt='bandLogo'></img>").attr("src", "/images/"+textSelected+".png");
+				div.append(img);
+				$('#influenceBandsSelected').append(div);
+				influenceBands.value = influenceBands.value + valueSelected;
 			}
 		};
 		function loadInstruments() {
@@ -112,6 +146,14 @@
 			var instrument = document.getElementById("instrumentInput");
 			instrument.value = event.target.value;
 		};
+		
+		//add band on select
+		var comboBands = document.getElementById("influenceBandsSelect");
+		comboBands.onchange = function(event){
+			addInfluenceBand();
+		};
+		
+		
 		
 		loadInfluenceBands();
 		loadInstruments();
