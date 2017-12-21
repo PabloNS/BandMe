@@ -62,7 +62,7 @@
 			 if(array.length == 1){
 				 favouriteBands.value = "";
 			 } else {
-				 array.splice(1, array.indexOf(event.currentTarget.attributes.idBand.value));
+				 array.splice(array.indexOf(event.currentTarget.attributes.idBand.value),1);
 				 favouriteBands.value = array.toString();
 			 }
 			 $('#divColumnBand'+event.currentTarget.attributes.idBand.value).remove();
