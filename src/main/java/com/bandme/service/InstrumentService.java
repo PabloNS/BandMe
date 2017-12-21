@@ -7,4 +7,6 @@ import com.bandme.model.Instrument;
 public interface InstrumentService {
 
 	List<Instrument> findAll();
+
+	Instrument findByName(String name);
 }

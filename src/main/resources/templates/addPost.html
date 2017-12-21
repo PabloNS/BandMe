@@ -151,10 +151,10 @@
 		        cache: false,
 		        success: function (result) {
 		        	var combo = document.getElementById("influenceBandsSelect");
-		        	result.forEach(function(instrument){
+		        	result.forEach(function(band){
 					    var option = document.createElement("option");
-					    option.text = instrument.name;
-					    option.value = instrument.id;
+					    option.text = band.name;
+					    option.value = band.id;
 					    combo.add(option);
 		        	});
 		        }

@@ -34,26 +34,25 @@
 		<tblock th:each="post: ${posts}" >
 			 <div class="container" style="margin-bottom:3rem" >
 				<div class="row">
-					<div style="box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
-					<div class="row">
-						<h2 th:text="${post.instrument.name}" class="u-pull-left"> Instrument </h2>
-						<img th:src="@{/images/login.png}" width="50" height="50" alt="Logo" class="u-pull-left" style="margin-left: 1rem"/>
-					</div>
-					<div class="row">
-						<div style="box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
-							<textarea readonly th:text="${post.description}" id="description" name="description" class="u-full-width" style="resize: none"></textarea>
+					<div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
+						<div class="row">
+							<h4 th:text="${post.instrument.name}" class="u-pull-left"> Instrument </h4>
+							<img th:src="@{/images/login.png}" width="40px" height="40px" alt="Logo" class="u-pull-left" style="margin-left: 1rem"/>
 						</div>
-					</div>
-					<div class="row">
-						<div class="offset-by-two-thirds one-third column">
-							<h3 th:text="${post.user.name}" class="u-pull-right"> User Name </h3>
+						<div class="row">
+							<!--<div style="box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">-->
+								<textarea readonly th:text="${post.description}" id="description" name="description" class="u-full-width" style="resize: none; margin-bottom:0rem; min-height:150px"></textarea>
+							<!--</div>-->
 						</div>
-					</div>
-					
+						<div class="row">
+							<div class="offset-by-two-thirds one-third column">
+								<h5 th:text="${post.user.name}" class="u-pull-right"> User Name </h5>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		 </tblock>	
-</div>			
+		 </tblock>
+</div>
 </body>
 </html>

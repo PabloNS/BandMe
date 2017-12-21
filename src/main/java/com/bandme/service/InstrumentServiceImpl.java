@@ -19,4 +19,9 @@ public class InstrumentServiceImpl implements InstrumentService{
 		return instrumentRepository.findAll();
 	}
 
+	@Override
+	public Instrument findByName(String name) {
+		return instrumentRepository.findByName(name);
+	}
+
 }

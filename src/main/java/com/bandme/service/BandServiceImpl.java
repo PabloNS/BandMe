@@ -19,4 +19,9 @@ public class BandServiceImpl implements BandService{
 		return bandRepository.findAll();
 	}
 
+	@Override
+	public Band findByName(String name) {
+		return bandRepository.findByName(name);
+	}
+
 }

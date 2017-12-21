@@ -7,4 +7,6 @@ import com.bandme.model.Band;
 public interface BandService {
 	
 	public List<Band> findAll();
+
+	public Band findByName(String name);
 }
