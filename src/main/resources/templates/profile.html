@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>BandMe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
 </head>
+
 <body>
 <div class="container">
     <div class="row">
@@ -29,40 +24,58 @@
             <h2 style="display: inline-block; vertical-align: middle"> Profile </h2>
         </div>
     </div>
-    <div class="container" style="margin-bottom:3rem" >
-        <div class="row">
-            <div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
-                <div class="row">
-                    <h4 th:text="${user.name} + ${user.lastName}" class="u-pull-left"> Name </h4>
+    <div class="row">
+        <div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
+            <div class="row">
+                <h4 th:text="${user.name} + ${user.lastName}" class="u-pull-left"> Name </h4>
 
-                </div>
-                <div class="row">
-                    <img th:src="@{/images/profilepicture.png}" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem"/>
-                </div>
-                <div class="row">
-                    <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">
-                        <h5 style="display: inline-block;"> Favourite Bands </h5>
-                        <button style="background-image:url('/images/updatet.png'); background-position: center;
-	 			            background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
-	 			            background-size: contain;" class="redirect" onclick="location.href='/user/updateFavouriteBands'"></button>
-                    </div>
-                </div>
-                <div class="row">
-                    <tblock th:each="favouriteBand: ${user.favouriteBands}">
-                        <div id="divColumnBand" + favouriteBand.id class='banda'>
-                            <table class="u-full-width" style="border-left:0px">
-                                <tr width: 15rem style="border-left:0px">
-                                    <td u-full-width th:text="${favouriteBand.name}" style="border-left:0px"> </td>
-                                    <td u-full-width> <img style="vertical-align:middle" width=50px height=50px" th:src="@{'/images/'+${favouriteBand.name}+'.png'}"> </td>
-                                </tr>
-                            </table>
-
+            </div>
+            <div class="row">
+                <img th:src="@{'/images/profilePictures/'+${user.profilePicture.fileName}}" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>
+            </div>
+            <div class="row">
+                <form class="form-horizontal" method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="uploadfile">Upload File:</label>
+                        <div class="col-sm-5">
+                            <input type="file" class="form-control" name="uploadfile" placeholder="Upload File"></input>
                         </div>
-                    </tblock>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
+                            <button type="submit" class="btn btn-default" id="btnGetFiles">Get Files</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">
+                    <h5 style="display: inline-block;"> Favourite Bands </h5>
+                    <button style="background-image:url('/images/updatet.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
+                        background-size: contain;" class="redirect" onclick="location.href='/user/updateFavouriteBands'"></button>
                 </div>
+            </div>
+            <div class="row">
+                <tblock th:each="favouriteBand: ${user.favouriteBands}">
+                    <div id="divColumnBand" + favouriteBand.id class='banda'>
+                        <table class="u-full-width" style="border-left:0px">
+                            <tr width: 15rem style="border-left:0px">
+                                <td u-full-width th:text="${favouriteBand.name}" style="border-left:0px"> </td>
+                                <td u-full-width> <img style="vertical-align:middle" width=50px height=50px" th:src="@{'/images/'+${favouriteBand.name}+'.png'}"> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </tblock>
             </div>
         </div>
     </div>
 </div>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/js/fileManager.js"></script>
 </body>
 </html>

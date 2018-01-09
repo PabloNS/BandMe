@@ -3,6 +3,8 @@ package com.bandme.service;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import com.bandme.model.ProfilePicture;
+import com.bandme.repository.ProfilePictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepository;
 	@Autowired
     private RoleRepository roleRepository;
+	@Autowired
+	private ProfilePictureRepository profilePictureRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -29,6 +33,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void saveUser(User user) {
+		if(user.getProfilePicture()==null){
+			ProfilePicture defaultProfPicture = profilePictureRepository.findByFileName("defaultProfilePicture.png");
+			user.setProfilePicture(defaultProfPicture);
+		}
 		userRepository.save(user);
 	}
 

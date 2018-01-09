@@ -2,23 +2,27 @@ package com.bandme.controller;
 
 import javax.validation.Valid;
 
-import com.bandme.model.Band;
-import com.bandme.model.FavouriteBandsWrapper;
-import com.bandme.model.Post;
+import com.bandme.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bandme.model.User;
 import com.bandme.service.UserService;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +80,11 @@ public class UserController {
 	public String profile(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
+		if(user.getProfilePicture()==null){
+			ProfilePicture defaultProfPicture = new ProfilePicture();
+			defaultProfPicture.setFileName("defaultProfPicture.png");
+			user.setProfilePicture(defaultProfPicture);
+		}
 		model.addAttribute("user", user);
 		return "profile";
 	}
@@ -88,11 +97,32 @@ public class UserController {
 
 
 	@RequestMapping(value="/user/updateFavouriteBands", method=RequestMethod.POST)
-	public String updateUserBands(Principal principal, FavouriteBandsWrapper favouriteBandsWrapper, BindingResult bindingResult) {
+	public String updateUserBands(FavouriteBandsWrapper favouriteBandsWrapper, BindingResult bindingResult) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		user.setFavouriteBands(favouriteBandsWrapper.getListFavouriteBands());
 		userService.saveUser(user);
 		return "redirect:/profile";
+	}
+
+
+	@RequestMapping(value="/user/updateProfilePicture", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<?> updateProfilePicture(@RequestParam("file") MultipartFile multipartFile) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+		if(!multipartFile.isEmpty()){
+			try {
+				//byte[] bytes = multipartFile.getBytes();
+				//user.setProfilePicture(bytes);
+				userService.saveUser(user);
+			} catch (Exception e) {
+				//ex.printStackTrace();
+			}
+		}
+		//return "redirect:/profile";
+
+		return new ResponseEntity("Successfully uploaded - " +
+				multipartFile.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
 	}
 }
