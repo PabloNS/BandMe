@@ -14,7 +14,7 @@ function doAjax() {
     $.ajax({
         type: "POST",
         enctype: 'multipart/form-data',
-        url: "file/upload",
+        url: "changeProfilePicture",
         data: data,
         processData: false, //prevent jQuery from automatically transforming the data into a query string
         contentType: false,

@@ -32,12 +32,18 @@ public class StorageService {
 
 	// TODO Al cambiar la foto de perfil hay que borrar la antigua (el fichero)
 	@Transactional
-	public void store(MultipartFile file){
+	public void changeProfilePicture(MultipartFile file){
 		try {
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
-            File source = new File(rootLocation+"//"+file.getOriginalFilename());
+		    String fileName = "PPUser" + user.getId() + ".png";
+		    if(Files.exists(this.rootLocation.resolve(fileName))){
+                Files.delete(this.rootLocation.resolve(fileName));
+            }
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
+            File source = new File(rootLocation+"//"+fileName);
+            //Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            //File source = new File(rootLocation+"//"+file.getOriginalFilename());
             String base64Image = "";
             try (FileInputStream imageInFile = new FileInputStream(source)) {
                 // Reading a Image file from file system
@@ -55,6 +61,16 @@ public class StorageService {
         	throw new RuntimeException("FAIL!");
         }
 	}
+
+    // TODO Al cambiar la foto de perfil hay que borrar la antigua (el fichero)
+    @Transactional
+    public void store(MultipartFile file){
+        try {
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+        } catch (Exception e) {
+            throw new RuntimeException("FAIL!");
+        }
+    }
 
     public Resource loadFile(String filename) {
         try {

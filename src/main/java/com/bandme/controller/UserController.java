@@ -3,6 +3,7 @@ package com.bandme.controller;
 import javax.validation.Valid;
 
 import com.bandme.model.*;
+import com.bandme.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	StorageService storageService;
 
 	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public String login() {
@@ -118,5 +122,17 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		return user.getImageBytes();
+	}
+
+	// Multiple file upload
+	@PostMapping("/changeProfilePicture")
+	@ResponseBody
+	public String uploadFileMulti(@RequestParam("uploadfile") MultipartFile file) {
+		try {
+			storageService.changeProfilePicture(file);
+			return "You successfully uploaded - " + file.getOriginalFilename();
+		} catch (Exception e) {
+			return "FAIL! Maybe You had uploaded the file before or the file's size > 500KB";
+		}
 	}
 }
