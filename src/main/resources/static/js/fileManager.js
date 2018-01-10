@@ -21,9 +21,20 @@ function doAjax() {
         cache: false,
         success: function (data) {
             $("#result").text(data);
+            loadImage();
         },
         error: function (e) {
             $("#result").text(e.responseText);
+        }
+    });
+};
+
+function loadImage() {
+   $.ajax({
+        type: "GET",
+        url: "profilePicture",
+        success: function (data) {
+           document.getElementById("profilePicture").src = "data:image/png;base64," + data;
         }
     });
 };

@@ -1,6 +1,7 @@
 package com.bandme.controller;
 
 import com.bandme.service.StorageService;
+import com.bandme.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,9 @@ public class FileController {
 
     @Autowired
     StorageService storageService;
+
+    @Autowired
+    private UserService userService;
 
     List<String> files = new ArrayList<String>();
 

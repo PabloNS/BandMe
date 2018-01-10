@@ -5,7 +5,6 @@ import javax.validation.Valid;
 import com.bandme.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,14 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bandme.service.UserService;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -80,11 +71,6 @@ public class UserController {
 	public String profile(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
-		if(user.getProfilePicture()==null){
-			ProfilePicture defaultProfPicture = new ProfilePicture();
-			defaultProfPicture.setFileName("defaultProfPicture.png");
-			user.setProfilePicture(defaultProfPicture);
-		}
 		model.addAttribute("user", user);
 		return "profile";
 	}
@@ -124,5 +110,13 @@ public class UserController {
 
 		return new ResponseEntity("Successfully uploaded - " +
 				multipartFile.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
+	}
+
+	@GetMapping("profilePicture")
+	@ResponseBody
+	public String profilePicture(){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+		return user.getImageBytes();
 	}
 }

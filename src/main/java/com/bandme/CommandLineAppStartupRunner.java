@@ -1,7 +1,6 @@
 package com.bandme;
 
 import com.bandme.model.*;
-import com.bandme.repository.ProfilePictureRepository;
 import com.bandme.service.*;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -20,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
+import java.util.Base64;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner {
@@ -39,27 +39,32 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     @Resource
     StorageService storageService;
 
-    @Autowired
-    ProfilePictureRepository pictureRepository;
-
     @Override
     @Transactional
     public void run(String...args) throws Exception {
         storageService.deleteAll();
         storageService.init();
 
-
         File source = new File("src//main//resources//static//images//defaultProfPicture.png");
+        String base64Image = "";
+        try (FileInputStream imageInFile = new FileInputStream(source)) {
+            // Reading a Image file from file system
+            byte imageData[] = new byte[(int) source.length()];
+            imageInFile.read(imageData);
+            base64Image = Base64.getEncoder().encodeToString(imageData);
+        } catch (FileNotFoundException e) {
+            System.out.println("Image not found" + e);
+        } catch (IOException ioe) {
+            System.out.println("Exception while reading the Image " + ioe);
+        }
+
+        /*File source = new File("src//main//resources//static//images//defaultProfPicture.png");
         File dest = new File("src//main/resources//static//images//profilePictures//defaultProfPicture.png");
-        FileCopyUtils.copy(source,dest);
+        FileCopyUtils.copy(source,dest);*/
 
         Band band = bandService.findByName("Green Day");
         Band band2 = bandService.findByName("Ramones");
         Band band3 = bandService.findByName("blink-182");
-
-        ProfilePicture defaultProfPicture = new ProfilePicture();
-        defaultProfPicture.setFileName("defaultProfPicture.png");
-        pictureRepository.save(defaultProfPicture);
 
         User user = new User();
         user.setEmail("test@test.com");
@@ -67,7 +72,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         user.setName("Peter");
         user.setLastName("Parker");
         user.setFavouriteBands(Arrays.asList(band,band2,band3));
-        user.setProfilePicture(defaultProfPicture);
+        user.setImageBytes(base64Image);
         userService.registerUser(user);
 
         Post post = new Post();

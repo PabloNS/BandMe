@@ -31,7 +31,8 @@
 
             </div>
             <div class="row">
-                <img th:src="@{'/images/profilePictures/'+${user.profilePicture.fileName}}" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>
+                <!--<img th:src="@{'/images/profilePictures/test.png'" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>-->
+                <img width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>
             </div>
             <div class="row">
                 <form class="form-horizontal" method="POST" enctype="multipart/form-data" id="fileUploadForm">
@@ -45,7 +46,7 @@
             <div class="row">
                 <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">
                     <h5 style="display: inline-block;"> Favourite Bands </h5>
-                    <button style="background-image:url('/images/updatet.png'); background-position: center;
+                    <button style="background-image:url('/images/update.png'); background-position: center;
                         background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
                         background-size: contain;" class="redirect" onclick="location.href='/user/updateFavouriteBands'"></button>
                 </div>
@@ -72,6 +73,7 @@
 <script src="/js/fileManager.js"></script>
 
 <script>
+
     var fileSelect = document.getElementById("fileSelect"),
     fileElem = document.getElementById("fileElem");
 
@@ -85,6 +87,8 @@
    function handleFiles() {
         doAjax();
    }
+
+   loadImage();
 </script>
 </body>
 </html>

@@ -14,6 +14,9 @@ import org.springframework.data.annotation.Transient;
 @Table(name = "user")
 public class User {
 
+	@Lob
+	private String imageBytes;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id")
@@ -45,9 +48,6 @@ public class User {
 	
 	@ManyToMany
 	private List<MusicGenre> favouriteGenres;
-
-	@OneToOne
-	private ProfilePicture profilePicture;
 
 	public Long getId() {
 		return id;
@@ -121,11 +121,11 @@ public class User {
 		this.favouriteGenres = favouriteGenres;
 	}
 
-	public ProfilePicture getProfilePicture() {
-		return profilePicture;
+	public String getImageBytes() {
+		return imageBytes;
 	}
 
-	public void setProfilePicture(ProfilePicture profilePicture) {
-		this.profilePicture = profilePicture;
+	public void setImageBytes(String imageBytes) {
+		this.imageBytes = imageBytes;
 	}
 }

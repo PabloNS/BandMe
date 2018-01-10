@@ -1,8 +1,6 @@
 package com.bandme.service;
 
-import com.bandme.model.ProfilePicture;
 import com.bandme.model.User;
-import com.bandme.repository.ProfilePictureRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,12 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 
 @Service
@@ -27,9 +26,6 @@ public class StorageService {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private ProfilePictureRepository profilePictureRepository;
 
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Path rootLocation = Paths.get("src//main/resources/static///images//profilePictures");
@@ -39,12 +35,21 @@ public class StorageService {
 	public void store(MultipartFile file){
 		try {
             Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
-            ProfilePicture profilePicture = new ProfilePicture();
-            profilePicture.setFileName(file.getOriginalFilename());
-            profilePictureRepository.save(profilePicture);
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
-            user.setProfilePicture(profilePicture);
+            File source = new File(rootLocation+"//"+file.getOriginalFilename());
+            String base64Image = "";
+            try (FileInputStream imageInFile = new FileInputStream(source)) {
+                // Reading a Image file from file system
+                byte imageData[] = new byte[(int) source.length()];
+                imageInFile.read(imageData);
+                base64Image = Base64.getEncoder().encodeToString(imageData);
+            } catch (FileNotFoundException e) {
+                System.out.println("Image not found" + e);
+            } catch (IOException ioe) {
+                System.out.println("Exception while reading the Image " + ioe);
+            }
+            user.setImageBytes(base64Image);
             userService.saveUser(user);
         } catch (Exception e) {
         	throw new RuntimeException("FAIL!");
