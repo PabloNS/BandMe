@@ -17,6 +17,8 @@ public class Instrument {
 	@NotEmpty
 	private String name;
 
+	private String logoImageName;
+
 	public Long getId() {
 		return id;
 	}
@@ -31,5 +33,13 @@ public class Instrument {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getLogoImageName() {
+		return logoImageName;
+	}
+
+	public void setLogoImageName(String logoImageName) {
+		this.logoImageName = logoImageName;
 	}
 }

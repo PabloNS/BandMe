@@ -80,7 +80,13 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
             post.setUser(user);
             post.setDescription("Hello there " + i);
             post.setInfluenceBands(Arrays.asList(bandService.findByName("Ramones"), bandService.findByName("Green Day"), bandService.findByName("blink-182")));
-            post.setInstrument(instrumentService.findByName("Guitar"));
+            if(i%2==0){
+                post.setInstrument(instrumentService.findByName("Electric Guitar"));
+            } else if(i%3==0){
+                post.setInstrument(instrumentService.findByName("Bass"));
+            } else {
+                post.setInstrument(instrumentService.findByName("Drums"));
+            }
             postService.savePost(post);
         }
 

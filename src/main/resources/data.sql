@@ -7,9 +7,9 @@ INSERT INTO band (id, name) VALUES (3, 'Metallica')
 INSERT INTO band (id, name) VALUES (4, 'Green Day')
 INSERT INTO band (id, name) VALUES (5, 'blink-182')
 
-INSERT INTO instrument(id, name) VALUES (1, 'Guitar')
-INSERT INTO instrument(id, name) VALUES (2, 'Bass')
-INSERT INTO instrument(id, name) VALUES (3,	'Drums')
+INSERT INTO instrument(id, name, logo_image_name) VALUES (1, 'Electric Guitar', 'electric guitar.png')
+INSERT INTO instrument(id, name, logo_image_name) VALUES (2, 'Bass', 'bass.png')
+INSERT INTO instrument(id, name, logo_image_name) VALUES (3, 'Drums', 'drums.png')
 
 INSERT INTO music_genre(id, name) VALUES (1, 'Trash Metal')
 INSERT INTO music_genre(id, name) VALUES (2, 'Pop Punk')

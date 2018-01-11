@@ -55,7 +55,7 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "registration";
 		} else {
-			userService.saveUser(user);
+			userService.registerUser(user);
 			return "redirect:/login";
 		}
 	}

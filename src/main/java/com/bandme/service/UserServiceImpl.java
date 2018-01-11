@@ -34,6 +34,30 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void saveUser(User user) {
+		/*if(user.getImageBytes()==null || user.getImageBytes().isEmpty()){
+			File source = new File("src//main//resources//static//images//defaultProfPicture.png");
+			String base64Image = "";
+			try (FileInputStream imageInFile = new FileInputStream(source)) {
+				// Reading a Image file from file system
+				byte imageData[] = new byte[(int) source.length()];
+				imageInFile.read(imageData);
+				base64Image = Base64.getEncoder().encodeToString(imageData);
+			} catch (FileNotFoundException e) {
+				System.out.println("Image not found" + e);
+			} catch (IOException ioe) {
+				System.out.println("Exception while reading the Image " + ioe);
+			}
+			user.setImageBytes(base64Image);
+		}*/
+		userRepository.save(user);
+	}
+
+	@Override
+	public void registerUser(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setActive(1);
+		Role userRole = roleRepository.findByRole("USER");
+		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		if(user.getImageBytes()==null || user.getImageBytes().isEmpty()){
 			File source = new File("src//main//resources//static//images//defaultProfPicture.png");
 			String base64Image = "";
@@ -49,15 +73,6 @@ public class UserServiceImpl implements UserService{
 			}
 			user.setImageBytes(base64Image);
 		}
-		userRepository.save(user);
-	}
-
-	@Override
-	public void registerUser(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setActive(1);
-		Role userRole = roleRepository.findByRole("USER");
-		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(user);
 	}
 
