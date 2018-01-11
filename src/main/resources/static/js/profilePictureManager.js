@@ -21,7 +21,7 @@ function doAjax() {
         cache: false,
         success: function (data) {
             $("#result").text(data);
-            loadImage();
+            loadProfilePicture();
         },
         error: function (e) {
             $("#result").text(e.responseText);
@@ -29,7 +29,7 @@ function doAjax() {
     });
 };
 
-function loadImage() {
+function loadProfilePicture() {
    $.ajax({
         type: "GET",
         url: "profilePicture",

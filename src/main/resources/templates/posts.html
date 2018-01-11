@@ -43,7 +43,8 @@
 					</div>
 					<div class="row">
 						<div class="offset-by-two-thirds one-third column">
-							<h5 th:text="${post.user.name}" class="u-pull-right"> User Name </h5>
+							<!--<a href="#" th:text="${post.user.name}" class="u-pull-right" id="userNamePost" th:onclick="'javascript:viewUserProfile(' + ${post.user.id} + ')'"> User Name </a>-->
+							<h5 th:text="${post.user.name}" class="u-pull-right" th:onclick="'javascript:viewUserProfile(' + ${post.user.id} + ')'"> User Name </h5>
 						</div>
 					</div>
 				</div>
@@ -64,16 +65,21 @@
 	 </div>
 </div>
 <script>
+ 	function viewUserProfile(idUser){
+		location.href="/viewProfile/"+idUser;
+	};
+
 	function nextPage(currentPage, lastPage){
 		if(currentPage<lastPage){
 			location.href="/posts/"+(currentPage+1);
 		}
-	}
+	};
+
 	function previousPage(currentPage){
 		if(currentPage>0){
 			location.href="/posts/"+(currentPage-1);
 		}
-	}
+	};
 </script>
 </body>
 </html>

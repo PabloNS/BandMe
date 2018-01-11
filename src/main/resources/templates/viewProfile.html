@@ -27,29 +27,11 @@
     <div class="row">
         <div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
             <div class="row">
-                <h4 th:text="${user.name} + ${user.lastName}" class="u-pull-left"> Name </h4>
+                <h4 th:text="${user.name} + ' ' + ${user.lastName}" class="u-pull-left"> Name </h4>
 
             </div>
             <div class="row">
-                <!--<img th:src="@{'/images/profilePictures/test.png'" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>-->
                 <img th:src="'data:image/png;base64,'+${user.imageBytes}+''" width="140px" height="140px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>
-            </div>
-            <div class="row">
-                <form class="form-horizontal" method="POST" enctype="multipart/form-data" id="fileUploadForm">
-                    <div class="form-group">
-                        <input type="file" class="form-control" style="display:none" name="uploadfile" placeholder="Upload File" id="fileElem"
-                               onchange="handleFiles(this.files)"></input>
-                        <a href="#" id="fileSelect">Change profile picture</a>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
-                <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">
-                    <h5 style="display: inline-block;"> Favourite Bands </h5>
-                    <button style="background-image:url('/images/update.png'); background-position: center;
-                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
-                        background-size: contain;" class="redirect" onclick="location.href='/user/updateFavouriteBands'"></button>
-                </div>
             </div>
             <div class="row">
                 <tblock th:each="favouriteBand: ${user.favouriteBands}">
@@ -70,26 +52,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="/js/profilePictureManager.js"></script>
-
-<script>
-
-    var fileSelect = document.getElementById("fileSelect"),
-    fileElem = document.getElementById("fileElem");
-
-    fileSelect.addEventListener("click", function (e) {
-    if (fileElem) {
-        fileElem.click();
-    }
-    e.preventDefault(); // prevent navigation to "#"
-    }, false);
-
-   function handleFiles() {
-        doAjax();
-        fileElem.value = "";
-   }
-
-   //loadProfilePicture();
-</script>
 </body>
 </html>

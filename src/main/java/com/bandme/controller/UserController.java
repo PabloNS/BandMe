@@ -56,7 +56,7 @@ public class UserController {
 			return "registration";
 		} else {
 			userService.registerUser(user);
-			return "redirect:/login";
+			return "redirect:/login?registered";
 		}
 	}
 
@@ -77,6 +77,17 @@ public class UserController {
 		User user = userService.findUserByEmail(auth.getName());
 		model.addAttribute("user", user);
 		return "profile";
+	}
+
+	@RequestMapping(value = "/viewProfile/{idUser}", method = RequestMethod.GET)
+	public String viewProfile(Model model, @PathVariable("idUser") Long idUser) {
+		User user = userService.findUserById(idUser);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		model.addAttribute("user", user);
+		if(idUser == userService.findUserByEmail(auth.getName()).getId()){
+			return "profile";
+		}
+		return "viewProfile";
 	}
 
 	@RequestMapping(value = "/user/updateFavouriteBands", method = RequestMethod.GET)
