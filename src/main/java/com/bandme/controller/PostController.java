@@ -5,9 +5,12 @@ import java.security.Principal;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,10 +28,30 @@ public class PostController {
 	@Autowired
 	private UserServiceImpl userService;
 	
-	@RequestMapping
+	/*@RequestMapping
 //	@PreAuthorize ("hasRole('USER')")
 	public String getAllPosts(Model model) {
 		model.addAttribute("posts", postService.findAll());
+		return "posts";
+	}*/
+
+	/*@RequestMapping
+	public String getAllPosts(Model model) {
+		int page = 0;
+		model.addAttribute("posts", postService.findAllLimited(page));
+		return "posts";
+	}*/
+
+	@RequestMapping("/{page}")
+	public String getAllPosts(Model model, @PathVariable("page") int page) {
+		long totalPosts = postService.countAll();
+		long lastPage = totalPosts/PostServiceImpl.PAGE_SIZE;
+		if(page>lastPage-1){
+			return "redirect:/posts/"+(lastPage-1);
+		}
+		model.addAttribute("posts", postService.findAllLimited(page));
+		model.addAttribute("currentPage", page);
+		model.addAttribute("lastPage", lastPage-1);
 		return "posts";
 	}
 	

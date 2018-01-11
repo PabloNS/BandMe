@@ -75,11 +75,14 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         user.setImageBytes(base64Image);
         userService.registerUser(user);
 
-        Post post = new Post();
-        post.setUser(user);
-        post.setDescription("Hello there");
-        post.setInfluenceBands(Arrays.asList(bandService.findByName("Ramines"), bandService.findByName("Green Day"), bandService.findByName("blink-182")));
-        post.setInstrument(instrumentService.findByName("Guitar"));
-        postService.savePost(post);
+        for(int i=0;i<1000;i++){
+            Post post = new Post();
+            post.setUser(user);
+            post.setDescription("Hello there " + i);
+            post.setInfluenceBands(Arrays.asList(bandService.findByName("Ramones"), bandService.findByName("Green Day"), bandService.findByName("blink-182")));
+            post.setInstrument(instrumentService.findByName("Guitar"));
+            postService.savePost(post);
+        }
+
     }
 }

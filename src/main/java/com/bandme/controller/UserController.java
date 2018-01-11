@@ -32,7 +32,7 @@ public class UserController {
 	public String login() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (userService.findUserByEmail(auth.getName()) != null) {
-			return "redirect:/posts";
+			return "redirect:/posts/0";
 		}
 		return "login";
 	}
