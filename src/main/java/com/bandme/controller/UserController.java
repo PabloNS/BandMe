@@ -82,6 +82,9 @@ public class UserController {
 	@RequestMapping(value = "/viewProfile/{idUser}", method = RequestMethod.GET)
 	public String viewProfile(Model model, @PathVariable("idUser") Long idUser) {
 		User user = userService.findUserById(idUser);
+		if(user==null){
+			return "redirect:/error?profileNotFound";
+		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("user", user);
 		if(idUser == userService.findUserByEmail(auth.getName()).getId()){

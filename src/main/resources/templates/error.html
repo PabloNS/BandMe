@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BandMe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div>
+            <form th:action="@{/posts/0}" method="get">
+                <button class="button-primary redirect u-pull-left" style="max-width: 15rem;">Posts</button>
+            </form>
+            <form th:action="@{/logout}" method="post">
+                <button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <h2 style="display: inline-block; vertical-align: middle"> Error </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            <div th:if="${param.profileNotFound}">
+                <div class="offset-by-three one-half column" style="margin-top:5%; box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+                    <h4 style="color: #FF1C19; text-align:center">User profile not found</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</body>
+</html>
