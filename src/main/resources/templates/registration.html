@@ -22,7 +22,11 @@
 					<label for="lastNameInput">Last Name</label>
 					<input type="text" id="lastNameInput" name="lastName" class="u-full-width" placeholder="Last Name" required th:field="*{lastName}" >
 					<label th:if="${#fields.hasErrors('*{lastName}')}" th:errors="*{lastName}" class="validation-message"></label>
-					
+
+					<label for="nickNameInput">Nickname</label>
+					<input type="text" id="nickNameInput" name="nickName" class="u-full-width" placeholder="Nickname" required th:field="*{nickName}" >
+					<label th:if="${#fields.hasErrors('*{nickName}')}" th:errors="*{nickName}" class="validation-message"></label>
+
 					<label for="emailInput">Email</label>
 					<input type="email" id="emailInput" name="email" class="u-full-width" placeholder="Email" required th:field="*{email}" >
 					<label th:if="${#fields.hasErrors('*{email}')}" th:errors="*{email}" class="validation-message"></label>

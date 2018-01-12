@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner {
@@ -71,6 +72,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         user.setPassword("12345");
         user.setName("Test");
         user.setLastName("User");
+        user.setNickName("TEST1");
         user.setFavouriteBands(Arrays.asList(band,band2,band3));
         user.setImageBytes(base64Image);
         userService.registerUser(user);
@@ -80,6 +82,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
             post.setUser(user);
             post.setDescription("Hello there " + i);
             post.setInfluenceBands(Arrays.asList(bandService.findByName("Ramones"), bandService.findByName("Green Day"), bandService.findByName("blink-182")));
+            post.setDate(new Date());
             if(i%2==0){
                 post.setInstrument(instrumentService.findByName("Electric Guitar"));
             } else if(i%3==0){

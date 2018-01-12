@@ -52,6 +52,12 @@ public class UserController {
 					.rejectValue("email", "error.user",
 							"There is already a user registered with the email provided");
 		}
+		userExists = userService.findUserByNickName(user.getNickName());
+		if (userExists != null) {
+			bindingResult
+					.rejectValue("nickName", "error.user",
+							"There is already a user registered with the nickname provided");
+		}
 		if (bindingResult.hasErrors()) {
 			return "registration";
 		} else {

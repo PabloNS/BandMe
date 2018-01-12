@@ -1,5 +1,6 @@
 package com.bandme.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -37,6 +38,8 @@ public class Post {
 	
 	@ManyToMany
 	private List<MusicGenre> musicGenres;
+
+	private Date date;
 
 	public Long getId() {
 		return id;
@@ -84,5 +87,13 @@ public class Post {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

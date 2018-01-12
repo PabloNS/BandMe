@@ -36,7 +36,11 @@ public class User {
 	
 	@NotEmpty(message = "Please provide your last name")
 	private String lastName;
-	
+
+	@Length(min = 5, max = 15, message = "Your nickname must have between 5 and 15 characters")
+	@NotEmpty(message = "Please provide your nickname")
+	private String nickName;
+
 	private int active;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -127,5 +131,13 @@ public class User {
 
 	public void setImageBytes(String imageBytes) {
 		this.imageBytes = imageBytes;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 }

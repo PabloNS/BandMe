@@ -1,6 +1,7 @@
 package com.bandme.controller;
 
 import java.security.Principal;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -35,12 +36,10 @@ public class PostController {
 		return "posts";
 	}*/
 
-	/*@RequestMapping
+	@RequestMapping
 	public String getAllPosts(Model model) {
-		int page = 0;
-		model.addAttribute("posts", postService.findAllLimited(page));
-		return "posts";
-	}*/
+		return "redirect:/posts/0";
+	}
 
 	@RequestMapping("/{page}")
 	public String getAllPosts(Model model, @PathVariable("page") int page) {
@@ -68,8 +67,9 @@ public class PostController {
 			return "addPost";
 		} else {
 			post.setUser(userService.findUserByEmail(principal.getName()));
+			post.setDate(new Date());
 			postService.savePost(post);
-			return "redirect:/posts";
+			return "redirect:/posts/0";
 		}
 	}
 }

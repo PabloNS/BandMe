@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	public User findUserByNickName(String nickName)  {
+		return userRepository.findByNickName(nickName);
+	}
+
+	@Override
 	public void saveUser(User user) {
 		/*if(user.getImageBytes()==null || user.getImageBytes().isEmpty()){
 			File source = new File("src//main//resources//static//images//defaultProfPicture.png");
