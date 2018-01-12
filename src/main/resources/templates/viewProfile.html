@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
-            <h2 style="display: inline-block; vertical-align: middle"> Profile </h2>
+            <h2 style="display: inline-block; vertical-align: middle" th:text="${user.name} + ' ' + ${user.lastName} + ' ' + profile"> Profile </h2>
         </div>
     </div>
     <div class="row">

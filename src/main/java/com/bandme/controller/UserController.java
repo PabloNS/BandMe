@@ -85,7 +85,7 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("user", user);
 		if(idUser == userService.findUserByEmail(auth.getName()).getId()){
-			return "profile";
+			return "redirect:/profile";
 		}
 		return "viewProfile";
 	}

@@ -163,6 +163,11 @@ a {
 a:hover {
   color: #0FA0CE; }
 
+.profileLink {
+  color: #1EAEDB; }
+.profileLink:hover {
+  color: #0FA0CE; }
+
 
 /* Buttons
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
