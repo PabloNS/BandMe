@@ -77,7 +77,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         user.setImageBytes(base64Image);
         userService.registerUser(user);
 
-        for(int i=0;i<1000;i++){
+        for(int i=0;i<50;i++){
             Post post = new Post();
             post.setUser(user);
             post.setDescription("Hello there " + i);
