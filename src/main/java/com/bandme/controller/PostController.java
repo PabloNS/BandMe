@@ -38,19 +38,21 @@ public class PostController {
 
 	@RequestMapping
 	public String getAllPosts(Model model) {
-		return "redirect:/posts/0";
+		return "redirect:/posts/1";
 	}
 
 	@RequestMapping("/{page}")
 	public String getAllPosts(Model model, @PathVariable("page") int page) {
 		long totalPosts = postService.countAll();
 		long lastPage = totalPosts/PostServiceImpl.PAGE_SIZE;
-		if(page>lastPage-1){
-			return "redirect:/posts/"+(lastPage-1);
+		if(page>lastPage){
+			return "redirect:/posts/"+(lastPage);
 		}
-		model.addAttribute("posts", postService.findAllLimited(page));
+
+		//page-1 because Spring uses 0 as first page index but we dont want the user to see that
+		model.addAttribute("posts", postService.findAllLimited(page-1));
 		model.addAttribute("currentPage", page);
-		model.addAttribute("lastPage", lastPage-1);
+		model.addAttribute("lastPage", lastPage);
 		return "posts";
 	}
 	
@@ -69,7 +71,7 @@ public class PostController {
 			post.setUser(userService.findUserByEmail(principal.getName()));
 			post.setDate(new Date());
 			postService.savePost(post);
-			return "redirect:/posts/0";
+			return "redirect:/posts/1";
 		}
 	}
 }
