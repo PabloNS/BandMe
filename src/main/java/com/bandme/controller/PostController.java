@@ -44,8 +44,11 @@ public class PostController {
 	@RequestMapping("/{page}")
 	public String getAllPosts(Model model, @PathVariable("page") int page) {
 		long totalPosts = postService.countAll();
-		long lastPage = totalPosts/PostServiceImpl.PAGE_SIZE;
-		if(page>lastPage){
+		long lastPage = totalPosts/ PostServiceImpl.PAGE_SIZE;
+		if(totalPosts<PostServiceImpl.PAGE_SIZE){
+			lastPage=1;
+		}
+		if(page>lastPage && totalPosts>=PostServiceImpl.PAGE_SIZE){
 			return "redirect:/posts/"+(lastPage);
 		}
 

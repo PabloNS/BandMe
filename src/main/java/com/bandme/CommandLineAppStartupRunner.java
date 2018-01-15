@@ -77,6 +77,16 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         user.setImageBytes(base64Image);
         userService.registerUser(user);
 
+        User user2 = new User();
+        user2.setEmail("email@email.com");
+        user2.setPassword("12345");
+        user2.setName("Test2");
+        user2.setLastName("User2");
+        user2.setNickName("TEST2");
+        user2.setFavouriteBands(Arrays.asList(band,band2,band3));
+        user2.setImageBytes(base64Image);
+        userService.registerUser(user2);
+
         for(int i=0;i<50;i++){
             Post post = new Post();
             post.setUser(user);

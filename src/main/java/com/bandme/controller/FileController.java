@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class FileController {
 
     @Autowired
-    StorageService storageService;
+    private StorageService storageService;
 
     @Autowired
     private UserService userService;

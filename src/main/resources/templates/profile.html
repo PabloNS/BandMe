@@ -30,9 +30,6 @@
                 <h4 th:text="${user.nickName}" class="u-pull-left"> Nickname </h4>
             </div>
             <div class="row">
-                <label th:text="Real + ' name: ' + ${user.name} + ' ' + ${user.lastName}"> RealName </label>
-            </div>
-            <div class="row">
                 <!--<img th:src="@{'/images/profilePictures/test.png'" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>-->
                 <img th:src="'data:image/png;base64,'+${user.imageBytes}+''" width="140px" height="140px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>
             </div>
@@ -44,6 +41,12 @@
                         <a href="#" id="fileSelect">Change profile picture</a>
                     </div>
                 </form>
+            </div>
+            <div class="row">
+                <label th:text="My + ' ' +'Messages'"> MyMessages </label>
+                <button style="background-image:url('/images/message.png'); background-position: center;
+	 			    background-repeat:no-repeat; width: 50px; height: 50px; padding: 1rem; margin-left: 1rem;
+	 			    background-size: contain;" class="messageButton" onclick="location.href='/message/1'"></button>
             </div>
             <div class="row">
                 <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">

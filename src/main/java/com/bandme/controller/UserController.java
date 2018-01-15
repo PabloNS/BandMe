@@ -89,7 +89,7 @@ public class UserController {
 	public String viewProfile(Model model, @PathVariable("idUser") Long idUser) {
 		User user = userService.findUserById(idUser);
 		if(user==null){
-			return "redirect:/error?profileNotFound";
+			return "redirect:/error?userNotFound";
 		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("user", user);
