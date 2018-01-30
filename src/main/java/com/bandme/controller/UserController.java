@@ -3,6 +3,7 @@ package com.bandme.controller;
 import javax.validation.Valid;
 
 import com.bandme.model.*;
+import com.bandme.service.MessageService;
 import com.bandme.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +27,10 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	StorageService storageService;
+	private StorageService storageService;
+
+	@Autowired
+	private MessageService messageService;
 
 	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public String login() {
@@ -82,6 +86,7 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		model.addAttribute("user", user);
+		model.addAttribute("totalNewMessages", messageService.countNewMessagesOfUserByUserId(user.getId()));
 		return "profile";
 	}
 
@@ -123,15 +128,10 @@ public class UserController {
 		User user = userService.findUserByEmail(auth.getName());
 		if(!multipartFile.isEmpty()){
 			try {
-				//byte[] bytes = multipartFile.getBytes();
-				//user.setProfilePicture(bytes);
 				userService.saveUser(user);
 			} catch (Exception e) {
-				//ex.printStackTrace();
 			}
 		}
-		//return "redirect:/profile";
-
 		return new ResponseEntity("Successfully uploaded - " +
 				multipartFile.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
 	}
@@ -144,7 +144,6 @@ public class UserController {
 		return user.getImageBytes();
 	}
 
-	// Multiple file upload
 	@PostMapping("/changeProfilePicture")
 	@ResponseBody
 	public String uploadFileMulti(@RequestParam("uploadfile") MultipartFile file) {

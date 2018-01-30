@@ -30,6 +30,11 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
+    public Long countNewMessagesOfUserByUserId(Long userId) {
+        return messageRepository.countNewMessagesOfUserByUserId(userId);
+    }
+
+    @Override
     public List<Message> findAllLimited(int page) {
         //Pageable limit = new PageRequest(page,PAGE_SIZE);
         PageRequest request =

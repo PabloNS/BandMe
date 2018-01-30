@@ -172,15 +172,6 @@ a:hover {
 /* Buttons
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.messageButton {
-  border: 0px;
-}
-.messageButton:hover {
- 	transform: scale(1.05);
- 	transition: transform 200ms;
-}
-
-
 .button,
 button,
 input[type="submit"],
@@ -193,7 +184,7 @@ input[type="button"] {
   text-align: center;
   font-size: 11px;
   font-weight: 600;
-  line-height: 38px;
+  //line-height: 38px;
   letter-spacing: .1rem;
   text-transform: uppercase;
   text-decoration: none;

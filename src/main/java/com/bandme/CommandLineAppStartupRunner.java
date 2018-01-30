@@ -2,22 +2,13 @@ package com.bandme;
 
 import com.bandme.model.*;
 import com.bandme.service.*;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
@@ -37,8 +28,11 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private MessageService messageService;
+
     @Resource
-    StorageService storageService;
+    private StorageService storageService;
 
     @Override
     @Transactional
@@ -86,6 +80,21 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         user2.setFavouriteBands(Arrays.asList(band,band2,band3));
         user2.setImageBytes(base64Image);
         userService.registerUser(user2);
+
+        Message m = new Message();
+        m.setFromUser(user2);
+        m.setToUser(user);
+        m.setDate(new Date());
+        m.setContent("blablabla");
+        messageService.saveMessage(m);
+
+        Message m2 = new Message();
+        m2.setFromUser(user2);
+        m2.setToUser(user);
+        m2.setDate(new Date());
+        m2.setContent("blablabla2");
+        m2.setReadMessage(true);
+        messageService.saveMessage(m2);
 
         for(int i=0;i<50;i++){
             Post post = new Post();

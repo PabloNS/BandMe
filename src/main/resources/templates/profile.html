@@ -47,6 +47,11 @@
                 <button style="background-image:url('/images/message.png'); background-position: center;
 	 			    background-repeat:no-repeat; width: 50px; height: 50px; padding: 1rem; margin-left: 1rem;
 	 			    background-size: contain;" class="messageButton" onclick="location.href='/message/1'"></button>
+                <button class="totalNewMessages messageButton" th:if="${totalNewMessages}>0"
+                        style="vertical-align:top; margin-left:-10px; border-radius:50%; padding:inherit;
+                        height:20px; width:20px; text-align:center; color:white; background-color:red"
+                        th:text="${totalNewMessages}>9?'+9':${totalNewMessages}" onclick="location.href='/message/1'">
+                </button>
             </div>
             <div class="row">
                 <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">
@@ -58,7 +63,7 @@
             </div>
             <div class="row">
                 <tblock th:each="favouriteBand: ${user.favouriteBands}">
-                    <div id="divColumnBand" + favouriteBand.id class='banda'>
+                    <div id="divColumnBand" class='banda'>
                         <table class="u-full-width" style="border-left:0px">
                             <tr width: 15rem style="border-left:0px">
                                 <td u-full-width th:text="${favouriteBand.name}" style="border-left:0px"> </td>

@@ -25,6 +25,8 @@ public class Message {
 
     private Date date;
 
+    private boolean readMessage;
+
     public User getFromUser() {
         return fromUser;
     }
@@ -63,5 +65,13 @@ public class Message {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isReadMessage() {
+        return readMessage;
+    }
+
+    public void setReadMessage(boolean readMessage) {
+        this.readMessage = readMessage;
     }
 }

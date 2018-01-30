@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
@@ -24,29 +29,47 @@
             <h2 style="display: inline-block; vertical-align: middle"> My messages </h2>
         </div>
     </div>
-    <tblock th:each="message: ${messages}" >
-        <div class="container" style="margin-bottom:3rem" >
-            <div class="row">
-                <div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
-                    <div class="row">
-                        <textarea readonly th:text="${message.content}" id="description" name="description" class="u-full-width" style="resize: none; margin-bottom:0rem; min-height:150px"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="offset-by-two-thirds one-third column">
-                            <h5 th:text="${message.fromUser.nickName}" class="u-pull-right profileLink" th:onclick="'javascript:viewUserProfile(' + ${message.fromUser.id} + ')'"> User Nickname </h5>
-                        </div>
-                    </div>
-                </div>
+    <table class="u-full-width" style="border-left:0px">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>Message</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tblock th:each="message: ${messages}" >
+            <div th:id="divColumnMessage + ${message.id}" class="message">
+                <!--<table class="u-full-width" style="border-left:0px">-->
+                    <tr width: 15rem style="border-left:0px">
+                        <!--<td th:classappend="${message.readMessage} ? '' : newMessage" u-full-width th:text="${message.date}" style="border-left:0px"> </td>-->
+                        <td th:classappend="${message.readMessage} ? '' : newMessage" u-full-width
+                            th:text="${#dates.format(message.date, 'dd-MM-yyyy HH:mm')}" style="border-left:0px"> </td>
+                        <td th:classappend="${message.readMessage} ? '' : newMessage" u-full-width
+                            th:text="${message.fromUser.nickName}" style="border-left:0px"> </td>
+                        <td th:classappend="${message.readMessage} ? '' : newMessage" u-full-width
+                            th:text="${message.content}" style="border-left:0px"> </td>
+                        <td th:classappend="${message.readMessage} ? '' : newMessage" u-full-width style="width:50px">
+                            <img style="vertical-align:middle" width=30px height=30px" type='button'
+                                 onclick='removeMessage(event)' th:src="@{'/images/garbage.png'}"
+                                 idMessage="{message.id}">
+                        </td>
+                    </tr>
+                <!--</table>-->
             </div>
-        </div>
-    </tblock>
+        </tblock>
+    </table>
     <div class="row">
         <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <label id="pageIndicator" th:text="Page + ' ' + ${currentPage} + ' ' + 'of' + ' ' + ${lastPage}"> </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="text-align: center">
             <button style="background-image:url('/images/previous.png'); background-position: center;
                         background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
                         margin-right: 1rem;
                         background-size: contain;" class="redirect" th:onclick="'javascript:previousPage(' + ${currentPage} + ')'"></button>
-            <label style="display:inline-block" id="pageIndicator" th:text="Page + ' ' + ${currentPage} + ' ' + 'of' + ' ' + ${lastPage}"> </label>
             <button style="background-image:url('/images/next.png'); background-position: center;
                         background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
                         background-size: contain;" class="redirect" th:onclick="'javascript:nextPage(' + ${currentPage} + ',' + ${lastPage} + ')'"></button>
@@ -60,15 +83,20 @@
 
 	function nextPage(currentPage, lastPage){
 		if(currentPage<lastPage){
-			location.href="/posts/"+(currentPage+1);
+			location.href="/message/"+(currentPage+1);
 		}
 	};
 
 	function previousPage(currentPage){
 		if(currentPage>1){
-			location.href="/posts/"+(currentPage-1);
+			location.href="/message/"+(currentPage-1);
 		}
 	};
+
+	function removeMessage(event){
+
+         $('#divColumnMessage'+event.currentTarget.attributes.idMessage.value).remove();
+    }
 </script>
 </body>
 </html>

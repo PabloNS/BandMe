@@ -8,4 +8,5 @@ public interface MessageService {
     public void saveMessage(Message post);
     public List<Message> findAllLimited(int page);
     public long countAll();
+    public Long countNewMessagesOfUserByUserId(Long userId);
 }
