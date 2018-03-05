@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>BandMe</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+   	<link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+   	<link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+</head>
+<body>
+ <div class="container">
+		 <div class="row">
+			 <div>
+				  	<form th:action="@{/profile}" method="get">
+						<button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
+				    </form>  
+				   <form th:action="@{/logout}" method="post">
+						<button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+				    </form> 
+			</div>	    	    
+		 </div> 
+ 	<div class="row">
+ 		<div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+			<div>
+ 		 	<h2 style="display: inline-block; vertical-align: middle; margin-bottom:1rem"> Posts </h2>
+ 		 	<button style="background-image:url('/images/plus.png'); background-position: center; 
+	 			background-repeat:no-repeat; width: 50px; height: 50px; padding: 1rem; margin-left: 1rem;
+	 			margin-bottom:1rem; background-size: contain; vertical-align:middle"
+				class="redirect" onclick="location.href='/posts/addPost'"></button>
+			</div>
+ 		</div>
+ 	</div>
+	<tblock th:each="post: ${posts}" >
+		 <div class="container" style="margin-bottom:3rem" >
+			<div class="row">
+				<div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
+					<div class="row">
+						<h4 th:text="${post.instrument.name}" class="u-pull-left"> Instrument </h4>
+						<img th:src="@{'/images/'+${post.instrument.logoImageName}}" width="40px" height="40px" alt="Logo" class="u-pull-left" style="margin-left: 1rem"/>
+					</div>
+					<div class="row">
+						<!--<div style="box-shadow:0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">-->
+							<textarea readonly th:text="${post.description}" id="description" name="description" class="u-full-width" style="resize: none; margin-bottom:0rem; min-height:150px"></textarea>
+						<!--</div>-->
+					</div>
+					<div class="row">
+						<div class="offset-by-two-thirds one-third column">
+							<!--<a href="#" th:text="${post.user.name}" class="u-pull-right" id="userNamePost" th:onclick="'javascript:viewUserProfile(' + ${post.user.id} + ')'"> User Name </a>-->
+							<h5 th:text="${post.user.nickName}" class="u-pull-right profileLink" th:onclick="'javascript:viewUserProfile(' + ${post.user.id} + ')'"> User Nickname </h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	 </tblock>
+	 <div class="row">
+		 <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+			 <div>
+				 <button style="background-image:url('/images/previous.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
+                        margin-right: 1rem;
+                        background-size: contain;" class="redirect" th:onclick="'javascript:previousPage(' + ${currentPage} + ')'"></button>
+				 <label style="display:inline-block; margin-top:.5rem; margin-bottom:0rem; vertical-align: middle" id="pageIndicator" th:text="Page + ' ' + ${currentPage} + ' ' + 'of' + ' ' + ${lastPage}"> </label>
+				 <button style="background-image:url('/images/next.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem; margin-right: 1rem;
+                        background-size: contain;" class="redirect" th:onclick="'javascript:nextPage(' + ${currentPage} + ',' + ${lastPage} + ')'"></button>
+			 </div>
+		 </div>
+	 </div>
+</div>
+<script>
+ 	function viewUserProfile(idUser){
+		location.href="/viewProfile/"+idUser;
+	};
+
+	function nextPage(currentPage, lastPage){
+		if(currentPage<lastPage){
+			location.href="/posts/"+(currentPage+1);
+		}
+	};
+
+	function previousPage(currentPage){
+		if(currentPage>1){
+			location.href="/posts/"+(currentPage-1);
+		}
+	};
+</script>
+</body>
+</html>

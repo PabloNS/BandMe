@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>BandMe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div>
+            <form th:action="@{/profile}" method="get">
+                <button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
+            </form>
+            <form th:action="@{/logout}" method="post">
+                <button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <h2 style="display: inline-block; vertical-align: middle"> Your favourite bands </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-three one-half column"
+             style="box-shadow: 0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+            <form th:action="@{/user/updateFavouriteBands}" th:object="${favouriteBands}" method="post" class="u-full-width" style="margin-top: 2rem">
+                <!--<label for="favouriteBandsSelect">Favourite Bands</label>-->
+                <input type="hidden" id="favouriteBandsInput" name="favouriteBands" required th:field="*{listFavouriteBands}">
+                <!--th:field="*{favouriteBands}"-->
+                <div class="row" id="favouriteBandsDiv">
+                    <div class="one-half column">
+                        <select id="favouriteBandsSelect" required name="favouriteBandsSelect">
+                            <option>Select your favourite bands (12max)</option>
+                        </select>
+                    </div>
+                    <!-- 						<div class="one-half column"> -->
+                    <!-- 							<button type="button" id="btnAddBand" onclick="addInfluenceBand()">Add</button> -->
+                    <!-- 						</div>	 -->
+                </div>
+
+                <div class="row" id="favouriteBandsSelected"></div>
+                <!--<label th:if="${#fields.hasErrors('favouriteBands')}" th:errors="*{favouriteBands}" class="validation-message"></label>-->
+
+                <button class="button-primary u-full-width" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+		function removeBand(event){
+			 var favouriteBands = document.getElementById("favouriteBandsInput");
+			 var array = favouriteBands.value.split(',');
+			 if(array.length == 1){
+				 favouriteBands.value = "";
+			 } else {
+				 array.splice(array.indexOf(event.currentTarget.attributes.idBand.value),1);
+				 favouriteBands.value = array.toString();
+			 }
+			 $('#divColumnBand'+event.currentTarget.attributes.idBand.value).remove();
+		}
+
+		function addFavouriteBand(valueSelected, textSelected){
+			var bandAlreadySelected = false;
+			var favouriteBands = document.getElementById("favouriteBandsInput");
+			var array = favouriteBands.value.split(',');
+			var combo = document.getElementById("favouriteBandsSelect");
+			if(valueSelected==null){
+			    var valueSelected = combo.options[combo.selectedIndex].value;
+			} else {
+			    var firstLoad = true;
+			}
+            if(textSelected==null){
+			    var textSelected = combo.options[combo.selectedIndex].text;
+			}
+			if(array.indexOf(valueSelected)>=0){
+				bandAlreadySelected = true;
+			}
+			if($(".banda").length>=12 || bandAlreadySelected || combo.selectedIndex==0 && !firstLoad){
+
+			} else {
+				var lengthBands = $(".banda").length;
+				var favouriteBands = document.getElementById("favouriteBandsInput");
+				if(lengthBands!==0){
+					favouriteBands.value = favouriteBands.value + ",";
+				}
+				var div = $("<div id='divColumnBand" + valueSelected + "' class='banda'></div>")
+				var table = $("<table class='u-full-width'></table>");
+				var urlImage = "/images/delete.png";
+				var tRow = $('<tr width: 15rem>' +
+						"<td class='u-full-width'>" + textSelected + '</td>' +
+						"<td class='u-full-width'>" + "<img style='vertical-align:middle; border-radius:100%' width=50px height=50px src='"+ "/images/"+ textSelected + ".png'>" + "</td>" +
+						"<td class='u-full-width'>" + "<button style='background-image:url"+"("+urlImage+"); background-position: center;"+
+			 			"background-repeat:no-repeat; width: 50px; height: 50px;"+
+			 			"background-size: contain; margin-bottom: 0px; vertical-align:middle;' type='button' onclick='removeBand(event)'"+
+			 			"idBand='" + valueSelected + "'>" +
+			 			"</button>" + "</td>" +
+				'</tr>');
+				table.append(tRow);
+				div.append(table);
+				$('#favouriteBandsSelected').append(div);
+				favouriteBands.value = favouriteBands.value + valueSelected;
+			}
+		};
+		function loadAllBands() {
+			var favouriteBands = document.getElementById("favouriteBandsInput");
+			favouriteBands.value = "";
+			$.ajax({
+		        type: 'GET',
+		        url: '/bands',
+		        cache: false,
+		        success: function (result) {
+		        	var combo = document.getElementById("favouriteBandsSelect");
+		        	result.forEach(function(band){
+					    var option = document.createElement("option");
+					    option.text = band.name;
+					    option.value = band.id;
+					    combo.add(option);
+		        	});
+		        }
+		    });
+		};
+		function loadFavouriteUserBands() {
+			var favouriteBands = document.getElementById("favouriteBandsInput");
+			favouriteBands.value = "";
+			$.ajax({
+		        type: 'GET',
+		        url: '/bands/user',
+		        cache: false,
+		        success: function (result) {
+		        	var combo = document.getElementById("favouriteBandsSelect");
+		        	result.forEach(function(band){
+					    addFavouriteBand(band.id, band.name);
+		        	});
+		        }
+		    });
+		};
+
+		//add band on select
+		var comboBands = document.getElementById("favouriteBandsSelect");
+		comboBands.onchange = function(event){
+			addFavouriteBand();
+		};
+
+		loadAllBands();
+		loadFavouriteUserBands();
+	</script>
+</body>
+</html>

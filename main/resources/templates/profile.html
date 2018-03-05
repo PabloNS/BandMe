@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+    <title>BandMe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div>
+            <form th:action="@{/posts/1}" method="get">
+                <button class="button-primary redirect u-pull-left" style="max-width: 15rem;">Posts</button>
+            </form>
+            <form th:action="@{/logout}" method="post">
+                <button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <h2 style="display: inline-block; vertical-align: middle"> My Profile </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div style="box-shadow:0 2px 10px #606060; padding: 2rem; padding-bottom: 0rem; border-radius: 1rem">
+            <div class="row">
+                <h4 th:text="${user.nickName}" class="u-pull-left"> Nickname </h4>
+            </div>
+            <div class="row">
+                <!--<img th:src="@{'/images/profilePictures/test.png'" width="100px" height="100px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>-->
+                <img th:src="'data:image/png;base64,'+${user.imageBytes}+''" width="140px" height="140px" alt="Profile Picture" class="u-pull-left" style="margin-bottom:2rem" id="profilePicture"/>
+            </div>
+            <div class="row">
+                <form class="form-horizontal" method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                    <div class="form-group">
+                        <input type="file" class="form-control" style="display:none" name="uploadfile" placeholder="Upload File" id="fileElem"
+                               onchange="handleFiles(this.files)"></input>
+                        <a href="#" id="fileSelect">Change profile picture</a>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <label th:text="My + ' ' +'Messages'"> MyMessages </label>
+                <button style="background-image:url('/images/message.png'); background-position: center;
+	 			    background-repeat:no-repeat; width: 50px; height: 50px; padding: 1rem; margin-left: 1rem;
+	 			    background-size: contain;" class="messageButton" onclick="location.href='/message/1'"></button>
+                <button class="totalNewMessages messageButton" th:if="${totalNewMessages}>0"
+                        style="vertical-align:top; margin-left:-10px; border-radius:50%; padding:inherit;
+                        height:20px; width:20px; text-align:center; color:white; background-color:red"
+                        th:text="${totalNewMessages}>9?'+9':${totalNewMessages}" onclick="location.href='/message/1'">
+                </button>
+            </div>
+            <div class="row">
+                <div class="offset-by-three six columns" style="margin-top:10%; text-align: center">
+                    <div>
+                        <h5 style="display: inline-block; vertical-align: middle; margin-bottom:1rem"> Favourite Bands </h5>
+                        <button style="background-image:url('/images/update.png'); background-position: center;
+                            background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
+                            margin-bottom:1rem; background-size: contain; vertical-align:middle"
+                            class="redirect" onclick="location.href='/user/updateFavouriteBands'"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <tblock th:each="favouriteBand: ${user.favouriteBands}">
+                    <div id="divColumnBand" class='banda'>
+                        <table class="u-full-width" style="border-left:0px">
+                            <tr width: 15rem style="border-left:0px">
+                                <td u-full-width th:text="${favouriteBand.name}" style="border-left:0px"> </td>
+                                <td u-full-width> <img style="vertical-align:middle" width=50px height=50px" th:src="@{'/images/'+${favouriteBand.name}+'.png'}"> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </tblock>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/js/profilePictureManager.js"></script>
+
+<script>
+
+    var fileSelect = document.getElementById("fileSelect"),
+    fileElem = document.getElementById("fileElem");
+
+    fileSelect.addEventListener("click", function (e) {
+    if (fileElem) {
+        fileElem.click();
+    }
+    e.preventDefault(); // prevent navigation to "#"
+    }, false);
+
+   function handleFiles() {
+        doAjax();
+        fileElem.value = "";
+   }
+
+   //loadProfilePicture();
+</script>
+</body>
+</html>
