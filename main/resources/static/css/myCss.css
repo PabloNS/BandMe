@@ -1,0 +1,83 @@
+.validation-message {
+	color: red;
+	font-size: 12px;
+	padding: 0 1rem 1rem 1rem;
+}
+
+.centered {
+	margin-left: 50%;
+	transform: translateX(-50%);
+}
+
+button.signIn {
+	color: #FFF;
+ 	background-color: rgb(44, 150, 106);
+  	border-color: grey; }
+}
+
+button.signIn:hover {
+ 	transform: scale(1.05);
+ 	transition: transform 200ms;
+}
+
+button.signIn:hover.centered {
+	transform:  translateX(-50%) scale(1.05);
+	transition: transform 200ms;
+}
+
+button.redirect, button.redirect:active {
+	background-color: #6E4D92 !important;
+	border-color: grey;
+}
+
+button.redirect:hover {
+ 	transform: scale(1.05);
+ 	transition: transform 200ms;
+}
+
+button.redirect:hover.centered {
+	transform:  translateX(-50%) scale(1.05);
+	transition: transform 200ms;
+}
+
+//button:hover {
+// 	transform: scale(1.05);
+// 	transition: transform 200ms;
+//}
+
+//button:hover.centered {
+//	transform:  translateX(-50%) scale(1.05);
+//	transition: transform 200ms;
+//}
+
+tdBand{
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #505050 !important;
+  border-top: 2px solid #505050 !important;
+  border-left: 2px solid #505050 !important;
+  border-right: 2px solid #505050 !important; }
+
+
+.messageButton {
+    border: 0px;
+}
+.messageButton:hover {
+ 	//transform: scale(1.05);
+ 	//transition: transform 200ms;
+}
+
+.newMessage {
+    background-color: rgb(209,250,243);
+}
+
+.messagesTableCenter {
+      border-left: 0px !important;
+      border-right: 0px !important;
+}
+.messagesTableLeft {
+      border-right: 0px !important;
+}
+.messagesTableRight {
+      border-left: 0px !important;
+}

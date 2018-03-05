@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>BandMe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div>
+            <form th:action="@{/profile}" method="get">
+                <button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
+            </form>
+            <form th:action="@{/logout}" method="post">
+                <button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <h2 style="display: inline-block; vertical-align: middle"> Send Message </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-three one-half column"
+             style="box-shadow: 0 2px 10px #606060; padding: 3rem; padding-bottom: 1rem; border-radius: 1rem">
+            <form th:action="@{/message/new}" th:object="${message}" method="post" class="u-full-width" style="margin-top: 2rem">
+                <label for="contentInput">Message</label>
+                <input style="display:none" th:field="*{toUser}"></input>
+                <textarea id="contentInput" maxlength   ="1400" name="content"
+                          class="u-full-width" style="resize: none; height: 250px" th:field="*{content}"></textarea>
+                <label th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="validation-message"></label>
+
+                <button class="button-primary u-full-width" type="submit">Send</button>
+            </form>
+            <div th:if="${param.messageSent}">
+                <h4 style="color: rgb(44, 150, 106); text-align:center">Message Sent!</h4>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

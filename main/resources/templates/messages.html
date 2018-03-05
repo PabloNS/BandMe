@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+    <title>BandMe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/skeleton.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myCss.css}" />
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div>
+            <form th:action="@{/profile}" method="get">
+                <button class="button-primary redirect u-pull-left" style="max-width: 15rem;">My profile</button>
+            </form>
+            <form th:action="@{/logout}" method="post">
+                <button class="button-primary redirect u-pull-right" style="max-width: 15rem;">Sign Out</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <h2 style="display: inline-block; vertical-align: middle"> My messages </h2>
+        </div>
+    </div>
+    <table cellspacing="0px" class="u-full-width" style="border-left:0px">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>Message</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tblock th:each="message: ${messages}" >
+            <!--<table class="u-full-width" style="border-left:0px">-->
+                <tr width: 15rem style="border-left:0px" th:id="rowMessage + ${message.id}"
+                    th:ondblclick="'javascript:readMessage(' + ${message.id} + ')'">
+                    <!--<td th:classappend="${message.readMessage} ? '' : newMessage" u-full-width th:text="${message.date}" style="border-left:0px"> </td>-->
+                    <td class="messagesTableLeft" th:classappend="${message.readMessage} ? '' : newMessage" u-full-width
+                        th:text="${#dates.format(message.date, 'dd-MM-yyyy HH:mm')}" style="border-left:0px"> </td>
+                    <td class="messagesTableCenter" th:classappend="${message.readMessage} ? '' : newMessage" u-full-width
+                        th:text="${message.fromUser.nickName}" style="border-left:0px"> </td>
+                    <td class="messagesTableCenter" th:classappend="${message.readMessage} ? '' : newMessage" u-full-width
+                        th:text="${message.content}" style="border-left:0px"> </td>
+                    <td class="messagesTableRight" th:classappend="${message.readMessage} ? '' : newMessage" u-full-width style="width:50px">
+                        <!--<img style="vertical-align:middle" width=30px height=30px" type='button'
+                             onclick='removeMessage(event)' th:src="@{'/images/garbage.png'}"
+                             th:idMessage="${message.id}">-->
+                        <button style="background-image:url('/images/garbage.png');
+                        background-position: center; background-repeat:no-repeat;
+                        width: 30px; height: 30px; background-size: contain;
+                        margin-bottom: 0px; vertical-align:middle; border: 0px;"
+                                th:onclick="'javascript:removeMessage(' + ${message.id} + ')'"></button>
+                    </td>
+                </tr>
+            <!--</table>-->
+        </tblock>
+    </table>
+    <!--<div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <label id="pageIndicator" th:text="Page + ' ' + ${currentPage} + ' ' + 'of' + ' ' + ${lastPage}"> </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-by-four one-third column" style="text-align: center">
+            <button style="background-image:url('/images/previous.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
+                        margin-right: 1rem;
+                        background-size: contain;" class="redirect" th:onclick="'javascript:previousPage(' + ${currentPage} + ')'"></button>
+            <button style="background-image:url('/images/next.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
+                        background-size: contain;" class="redirect" th:onclick="'javascript:nextPage(' + ${currentPage} + ',' + ${lastPage} + ')'"></button>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="offset-by-four one-third column" style="margin-top:10%; text-align: center">
+            <button style="background-image:url('/images/previous.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;
+                        margin-right: 1rem;
+                        background-size: contain;" class="redirect" th:onclick="'javascript:previousPage(' + ${currentPage} + ')'"></button>
+            <label style="display:inline-block; margin-top:.5rem; margin-bottom:0rem; vertical-align: middle" id="pageIndicator" th:text="Page + ' ' + ${currentPage} + ' ' + 'of' + ' ' + ${lastPage}"> </label>
+            <button style="background-image:url('/images/next.png'); background-position: center;
+                        background-repeat:no-repeat; width: 40px; height: 40px; padding: 1rem; margin-left: 1rem;  margin-right: 1rem;
+                        background-size: contain;" class="redirect" th:onclick="'javascript:nextPage(' + ${currentPage} + ',' + ${lastPage} + ')'"></button>
+        </div>
+    </div>
+</div>
+<script>
+ 	function viewUserProfile(idUser){
+		location.href="/viewProfile/"+idUser;
+	};
+
+	function nextPage(currentPage, lastPage){
+		if(currentPage<lastPage){
+			location.href="/message/"+(currentPage+1);
+		}
+	};
+
+	function previousPage(currentPage){
+		if(currentPage>1){
+			location.href="/message/"+(currentPage-1);
+		}
+	};
+
+	function removeMessage(idMessage){
+        $.ajax({
+            type: 'DELETE',
+            url: '/message/'+idMessage,
+            cache: false,
+            success: function (result) {
+                 $('#rowMessage'+idMessage).remove();
+            }
+        });
+    };
+
+    function readMessage(idMessage){
+        location.href="/message/read/"+idMessage;
+    };
+</script>
+</body>
+</html>
